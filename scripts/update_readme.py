@@ -1,63 +1,78 @@
 import os
 import urllib.request
+import urllib.error
 import json
 
-# --- Fetch live stats from LeetCode API ---
-def fetch_leetcode_stats(username):
+def fetch(url):
     try:
-        url = f"https://leetcode-stats-api.herokuapp.com/{username}"
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=10) as res:
-            data = json.loads(res.read().decode())
-        if data.get("status") == "success":
-            return data
+            return json.loads(res.read().decode())
     except Exception as e:
-        print(f"API fetch failed: {e}")
-    return None
+        print(f"  failed: {e}")
+        return None
 
 USERNAME = "PeshalMishra"
-data = fetch_leetcode_stats(USERNAME)
+data = None
+
+# Try multiple APIs in order
+apis = [
+    f"https://alfa-leetcode-api.onrender.com/{USERNAME}/solved",
+    f"https://leetcode-stats.tashif.codes/{USERNAME}",
+    f"https://leetcode-stats-api.herokuapp.com/{USERNAME}",
+]
+
+print("Trying LeetCode APIs...")
+for url in apis:
+    print(f"  -> {url}")
+    result = fetch(url)
+    if result and not result.get("errors"):
+        data = result
+        print(f"  OK: {url}")
+        break
 
 if data:
-    easy    = data.get("easySolved", 0)
-    medium  = data.get("mediumSolved", 0)
-    hard    = data.get("hardSolved", 0)
-    total   = data.get("totalSolved", 0)
-    ranking = data.get("ranking", "N/A")
-    accept  = round(data.get("acceptanceRate", 0), 1)
-    source  = "leetcode api"
-    print(f"Live stats fetched — Total: {total} | Easy: {easy} | Medium: {medium} | Hard: {hard} | Rank: {ranking}")
+    # alfa-leetcode-api returns solvedProblem / easySolved etc
+    easy   = data.get("easySolved",   data.get("easySolved",   0))
+    medium = data.get("mediumSolved", data.get("mediumSolved", 0))
+    hard   = data.get("hardSolved",   data.get("hardSolved",   0))
+    total  = data.get("solvedProblem",data.get("totalSolved",  easy + medium + hard))
+    ranking= data.get("ranking", "N/A")
+    accept = data.get("acceptanceRate", "N/A")
+    if isinstance(accept, float):
+        accept = round(accept, 1)
+    source = "leetcode api (live)"
+    print(f"Stats: Total={total} Easy={easy} Med={medium} Hard={hard}")
 else:
-    # Fallback: count local files
-    stats = {"easy": 0, "medium": 0, "hard": 0}
-    for k in stats:
+    # Fallback: count local solution files
+    print("All APIs failed, falling back to local file count.")
+    counts = {}
+    for k in ["easy", "medium", "hard"]:
         if os.path.exists(k):
-            files = [f for f in os.listdir(k) if not f.startswith('.')]
-            stats[k] = len(files)
-    easy   = stats["easy"]
-    medium = stats["medium"]
-    hard   = stats["hard"]
-    total  = easy + medium + hard
+            counts[k] = len([f for f in os.listdir(k) if not f.startswith('.')])
+        else:
+            counts[k] = 0
+    easy, medium, hard = counts["easy"], counts["medium"], counts["hard"]
+    total   = easy + medium + hard
     ranking = "N/A"
     accept  = "N/A"
-    source  = "local files (api unavailable)"
-    print(f"Fallback to local count — Total: {total}")
+    source  = "local files (all apis down)"
 
-# --- Recent problems from local folders ---
+# Recent solutions from local folders
 recent = []
 for k in ["easy", "medium", "hard"]:
     if os.path.exists(k):
-        recent += os.listdir(k)
-recent = sorted([f for f in recent if not f.startswith('.')], reverse=True)[:5]
+        recent += [f for f in os.listdir(k) if not f.startswith('.')]
+recent = sorted(recent, reverse=True)[:5]
 recent_lines = "\n".join(f"- `{r}`" for r in recent) if recent else "- No local solutions yet"
 
-# --- Progress bar ---
+# Progress bar toward goal
 goal = 300
-progress_filled = min(20, int((total / goal) * 20))
-progress_bar = "█" * progress_filled + "░" * (20 - progress_filled)
-progress_pct = round(min((total / goal) * 100, 100), 1)
+filled = min(20, int((total / goal) * 20))
+bar = "█" * filled + "░" * (20 - filled)
+pct = round(min((total / goal) * 100, 100), 1)
+remaining = max(0, goal - total)
 
-# --- Write README ---
 readme = f"""# 🚀 LeetCode Journey — Peshal Mishra
 
 <div align="center">
@@ -88,8 +103,8 @@ readme = f"""# 🚀 LeetCode Journey — Peshal Mishra
 ## 🎯 Goal Progress — 300 Problems
 
 ```
-{progress_bar}  {progress_pct}%
-{total} / {goal} solved · {max(0, goal - total)} remaining
+{bar}  {pct}%
+{total} / {goal} solved · {remaining} remaining
 ```
 
 ---
@@ -117,7 +132,7 @@ readme = f"""# 🚀 LeetCode Journey — Peshal Mishra
 ---
 
 <div align="center">
-  <sub>Stats fetched live from LeetCode · auto-updated daily via GitHub Actions · source: {source}</sub>
+  <sub>Auto-updated daily via GitHub Actions · {source}</sub>
 </div>
 """
 
