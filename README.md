@@ -8,14 +8,15 @@
 ---
 
 ## 📊 Stats
-- Total Solved: 2
-- Easy: 1 | Medium: 1 | Hard: 0
+- Total Solved: 3
+- Easy: 1 | Medium: 1 | Hard: 1
 
 ---
 
 ## 🔥 Recent Problems
 - 279.cpp
 - 258.cpp
+- 224.java
 
 ---
 
