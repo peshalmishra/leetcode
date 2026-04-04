@@ -1,0 +1,30 @@
+name: Update LeetCode Stats
+
+on:
+  push:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Run stats script
+      run: python scripts/update_readme.py
+
+    - name: Commit changes
+      run: |
+        git config --global user.name "auto-bot"
+        git config --global user.email "bot@github.com"
+        git add .
+        git commit -m "auto update stats" || echo "No changes"
+        git push
