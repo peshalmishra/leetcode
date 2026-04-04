@@ -14,10 +14,10 @@
 
 <div align="center">
 
-![Easy](https://img.shields.io/badge/Easy-1-00b8a3?style=for-the-badge)
-![Medium](https://img.shields.io/badge/Medium-1-ffc01e?style=for-the-badge)
-![Hard](https://img.shields.io/badge/Hard-1-ef4743?style=for-the-badge)
-![Total](https://img.shields.io/badge/Total%20Solved-3-5b21b6?style=for-the-badge)
+![Easy](https://img.shields.io/badge/Easy-220-00b8a3?style=for-the-badge)
+![Medium](https://img.shields.io/badge/Medium-99-ffc01e?style=for-the-badge)
+![Hard](https://img.shields.io/badge/Hard-32-ef4743?style=for-the-badge)
+![Total](https://img.shields.io/badge/Total%20Solved-351-5b21b6?style=for-the-badge)
 ![Rank](https://img.shields.io/badge/Global%20Rank-N/A-0ea5e9?style=for-the-badge)
 ![Acceptance](https://img.shields.io/badge/Acceptance-N/A%25-16a34a?style=for-the-badge)
 
@@ -28,8 +28,8 @@
 ## 🎯 Goal Progress — 300 Problems
 
 ```
-░░░░░░░░░░░░░░░░░░░░  1.0%
-3 / 300 solved · 297 remaining
+████████████████████  100%
+351 / 300 solved · 0 remaining
 ```
 
 ---
@@ -59,5 +59,5 @@
 ---
 
 <div align="center">
-  <sub>Stats fetched live from LeetCode · auto-updated daily via GitHub Actions · source: local files (api unavailable)</sub>
+  <sub>Auto-updated daily via GitHub Actions · leetcode api (live)</sub>
 </div>
