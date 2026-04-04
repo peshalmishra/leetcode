@@ -8,12 +8,13 @@
 ---
 
 ## 📊 Stats
-- Total Solved: 0
-- Easy: 0 | Medium: 0 | Hard: 0
+- Total Solved: 1
+- Easy: 0 | Medium: 1 | Hard: 0
 
 ---
 
 ## 🔥 Recent Problems
+- 279-perfect-squares.cpp
 
 ---
 
