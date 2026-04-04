@@ -14,7 +14,7 @@
 ---
 
 ## 🔥 Recent Problems
-- 279-perfect-squares.cpp
+- 279.cpp
 
 ---
 
