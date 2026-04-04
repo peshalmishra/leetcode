@@ -18,8 +18,7 @@
 ![Medium](https://img.shields.io/badge/Medium-99-ffc01e?style=for-the-badge)
 ![Hard](https://img.shields.io/badge/Hard-32-ef4743?style=for-the-badge)
 ![Total](https://img.shields.io/badge/Total%20Solved-351-5b21b6?style=for-the-badge)
-![Rank](https://img.shields.io/badge/Global%20Rank-N/A-0ea5e9?style=for-the-badge)
-![Acceptance](https://img.shields.io/badge/Acceptance-N/A%25-16a34a?style=for-the-badge)
+![Rank](https://img.shields.io/badge/Global%20Rank-355941-0ea5e9?style=for-the-badge)
 
 </div>
 
@@ -59,5 +58,5 @@
 ---
 
 <div align="center">
-  <sub>Auto-updated daily via GitHub Actions · leetcode api (live)</sub>
+  <sub>Auto-updated daily via GitHub Actions · leetcode graphql (live)</sub>
 </div>
